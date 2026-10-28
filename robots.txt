@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sani-s-portfolio-4s8x.vercel.app/sitemap.xml
