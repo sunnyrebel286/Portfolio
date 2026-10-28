@@ -4,5 +4,5 @@
     ? savedTheme
     : 'light';
   document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#07151e' : '#ffffff';
+  document.querySelector('meta[name="theme-color"]').content = '#071321';
 })();

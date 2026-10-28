@@ -9,7 +9,7 @@ const updateThemeControl = () => {
   themeButton.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
   themeButton.querySelector('.theme-label').textContent = isDark ? 'Light' : 'Dark';
   themeButton.querySelector('.theme-icon').textContent = isDark ? '☼' : '☾';
-  document.querySelector('meta[name="theme-color"]').content = '#07151e';
+  document.querySelector('meta[name="theme-color"]').content = '#071321';
 };
 
 updateThemeControl();
