@@ -9,7 +9,7 @@ const updateThemeControl = () => {
   themeButton.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
   themeButton.querySelector('.theme-label').textContent = isDark ? 'Light' : 'Dark';
   themeButton.querySelector('.theme-icon').textContent = isDark ? '☼' : '☾';
-  document.querySelector('meta[name="theme-color"]').content = isDark ? '#0b1725' : '#f7f9fc';
+  document.querySelector('meta[name="theme-color"]').content = '#07151e';
 };
 
 updateThemeControl();
@@ -50,6 +50,8 @@ const githubProfileStatus = document.querySelector('#github-profile-status');
 const githubStats = document.querySelector('#github-stats');
 const githubRepoStatus = document.querySelector('#github-repo-status');
 const githubRepoList = document.querySelector('#github-repo-list');
+const githubLanguageStatus = document.querySelector('#github-language-status');
+const githubLanguageList = document.querySelector('#github-language-list');
 
 fetch('https://api.github.com/users/sunnyrebel286', {
   headers: { Accept: 'application/vnd.github+json' },
@@ -69,7 +71,7 @@ fetch('https://api.github.com/users/sunnyrebel286', {
     githubProfileStatus.textContent = 'GitHub profile details are temporarily unavailable. Visit the profile directly.';
   });
 
-fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=8', {
+fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=100', {
   headers: { Accept: 'application/vnd.github+json' },
 })
   .then((response) => {
@@ -77,14 +79,15 @@ fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=8'
     return response.json();
   })
   .then((repositories) => {
-    const publicRepositories = repositories.filter((repository) => !repository.fork).slice(0, 4);
+    const publicRepositories = repositories.filter((repository) => !repository.fork);
     if (publicRepositories.length === 0) {
       githubRepoStatus.textContent = 'No public repositories are available to show.';
+      githubLanguageStatus.textContent = 'No public repository language data is available.';
       return;
     }
 
     githubRepoStatus.textContent = '';
-    publicRepositories.forEach((repository) => {
+    publicRepositories.slice(0, 3).forEach((repository) => {
       const card = document.createElement('article');
       card.className = 'github-repo-card';
 
@@ -115,9 +118,65 @@ fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=8'
       card.append(title, description, metadata);
       githubRepoList.append(card);
     });
+
+    const languageCounts = new Map();
+    publicRepositories.forEach((repository) => {
+      if (repository.language) {
+        languageCounts.set(repository.language, (languageCounts.get(repository.language) || 0) + 1);
+      }
+    });
+
+    const languageTotal = Array.from(languageCounts.values()).reduce((total, count) => total + count, 0);
+    if (languageTotal === 0) {
+      githubLanguageStatus.textContent = 'No language data is available for public repositories.';
+      return;
+    }
+
+    githubLanguageStatus.textContent = 'Share of public repositories by primary language.';
+    const languageColors = {
+      'C#': '#178600',
+      CSS: '#563d7c',
+      HTML: '#e34c26',
+      Java: '#b07219',
+      JavaScript: '#f1e05a',
+      Python: '#3572a5',
+      TypeScript: '#3178c6',
+    };
+
+    Array.from(languageCounts.entries())
+      .sort((first, second) => second[1] - first[1])
+      .slice(0, 5)
+      .forEach(([language, count]) => {
+        const percentage = Math.round((count / languageTotal) * 100);
+        const row = document.createElement('div');
+        row.className = 'github-language-row';
+
+        const heading = document.createElement('div');
+        heading.className = 'github-language-heading';
+
+        const name = document.createElement('span');
+        name.textContent = language;
+
+        const value = document.createElement('strong');
+        value.textContent = `${percentage}%`;
+        heading.append(name, value);
+
+        const track = document.createElement('div');
+        track.className = 'github-language-bar';
+        track.setAttribute('role', 'img');
+        track.setAttribute('aria-label', `${language}: ${percentage}% of public repositories`);
+
+        const bar = document.createElement('span');
+        bar.style.width = `${percentage}%`;
+        bar.style.setProperty('--language-color', languageColors[language] || '#4ad6a0');
+        track.append(bar);
+        row.append(heading, track);
+        githubLanguageList.append(row);
+      });
   })
   .catch(() => {
     githubRepoStatus.textContent = 'Recent repositories are temporarily unavailable. Visit GitHub to see them.';
+    githubLanguageStatus.textContent = 'Public repository language details are temporarily unavailable.';
   });
 
 const contactForm = document.querySelector('#contact-form');
