@@ -21,8 +21,8 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav">
-  <a class="brand" href="#home">Sani Kumar</a>
-  <button class="menu-btn" aria-expanded="false" aria-controls="links">Menu</button>
+  <a class="brand" href="#home"><span class="brand-mark">SK</span><span>Sani Kumar</span></a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="links" aria-label="Open navigation menu"><span></span><span></span></button>
   <nav id="links" class="links" aria-label="Main">
     <a href="#about">About</a><a href="#projects">Projects</a><a href="#experience">Experience</a><a href="#education">Education</a><a href="#github">GitHub</a><a href="#contact">Contact</a>
   </nav>
@@ -32,17 +32,18 @@
 <main id="main">
 <section id="home" class="hero wrap">
   <div>
-    <p class="status"><span class="dot"></span>Backend Developer at Typesider, Noida</p>
+    <p class="eyebrow"><span class="dot"></span>Backend Developer <span class="eyebrow-divider">/</span> Noida, India</p>
     <h1>Backend developer building APIs that people rely on.</h1>
     <p class="lead">I work with C#, ASP.NET Core, EF Core and MySQL. At Typesider I am the sole backend owner of a live gift-card rewards platform.</p>
     <div class="actions">
       <a class="btn" href="#projects">View projects</a>
       <a id="resume-link" class="btn alt" href="assets/documents/Sani_Kumar_Resume.pdf" download hidden>Download resume</a>
     </div>
-    <p class="links-row"><a href="https://github.com/sunnyrebel286">GitHub</a> <a href="https://www.linkedin.com/in/sani-kumar/">LinkedIn</a> <a href="mailto:sunnyrebel286@gmail.com">Email</a></p>
+    <p class="links-row"><a href="https://github.com/sunnyrebel286">GitHub <span aria-hidden="true">↗</span></a> <a href="https://www.linkedin.com/in/sani-kumar/">LinkedIn <span aria-hidden="true">↗</span></a> <a href="mailto:sunnyrebel286@gmail.com">Email <span aria-hidden="true">↗</span></a></p>
   </div>
   <div class="visual">
     <img class="photo" src="assets/images/profile.jpg" width="634" height="783" alt="Portrait of Sani Kumar" fetchpriority="high">
+    <div class="visual-note"><span class="visual-note-label">CURRENTLY BUILDING</span><span>Reliable systems.<br>Useful products.</span><span class="visual-note-mark" aria-hidden="true">✳</span></div>
     <pre class="resp" aria-label="Summary of Sani Kumar's profile"><code><span class="d">GET /api/developer/sani</span>
 <span class="d">200 OK</span>
 {
@@ -57,33 +58,33 @@
 </section>
 
 <section id="about" class="wrap sec">
-  <h2>About</h2>
+  <div class="section-head"><p class="section-kicker">01 <span>/</span> A LITTLE ABOUT ME</p><h2>About</h2></div>
   <p>I am an MCA graduate (NIET, 2025) who moved from desktop development in WPF and WinForms to backend work on the web. I enjoy owning the whole backend: API design, database schema and the business rules in between. I am now extending a rewards platform to mobile and building its referral module.</p>
 </section>
 
 <section id="skills" class="wrap sec">
-  <h2>Skills</h2>
+  <div class="section-head"><p class="section-kicker">02 <span>/</span> WHAT I WORK WITH</p><h2>Skills</h2></div>
   <div class="grid3">
-    <div class="card"><h3>Backend</h3><p>C#, .NET, ASP.NET Core, MVC, Entity Framework, REST APIs</p></div>
-    <div class="card"><h3>Databases</h3><p>MySQL, SQL Server, PostgreSQL</p></div>
-    <div class="card"><h3>Frontend</h3><p>JavaScript, React, HTML5, CSS3</p></div>
-    <div class="card"><h3>Other languages</h3><p>Java, C++</p></div>
-    <div class="card"><h3>Tools</h3><p>Git, VS Code, IntelliJ, PyCharm</p></div>
-    <div class="card"><h3>Computer science</h3><p>Data structures and algorithms: graphs, segment trees, dynamic programming</p></div>
+    <div class="card skill-card"><span class="card-index">01</span><h3>Backend</h3><p>C#, .NET, ASP.NET Core, MVC, Entity Framework, REST APIs</p></div>
+    <div class="card skill-card"><span class="card-index">02</span><h3>Databases</h3><p>MySQL, SQL Server, PostgreSQL</p></div>
+    <div class="card skill-card"><span class="card-index">03</span><h3>Frontend</h3><p>JavaScript, React, HTML5, CSS3</p></div>
+    <div class="card skill-card"><span class="card-index">04</span><h3>Other languages</h3><p>Java, C++</p></div>
+    <div class="card skill-card"><span class="card-index">05</span><h3>Tools</h3><p>Git, VS Code, IntelliJ, PyCharm</p></div>
+    <div class="card skill-card"><span class="card-index">06</span><h3>Computer science</h3><p>Data structures and algorithms: graphs, segment trees, dynamic programming</p></div>
   </div>
 </section>
 
 <section id="projects" class="wrap sec">
-  <h2>Projects</h2>
+  <div class="section-head"><p class="section-kicker">03 <span>/</span> SELECTED WORK</p><h2>Projects</h2></div>
   <div class="grid2">
-    <article class="card">
-      <h3>TypeSider Platform</h3><p class="meta">ASP.NET Core, C#, MySQL, EF Core · 2026 · Live on desktop, mobile in progress</p>
+    <article class="card project-card">
+      <span class="project-number">01 / PRODUCT</span><h3>TypeSider Platform</h3><p class="meta">ASP.NET Core, C#, MySQL, EF Core · 2026 · Live on desktop, mobile in progress</p>
       <ul><li>Real-time eligibility engine that checks engagement within a rolling time window to unlock gift-card rewards, and expires unclaimed ones.</li>
       <li>Dual-server time synchronisation so users cannot unlock or extend rewards by changing their device clock.</li>
       <li>Referral rewards module in progress.</li></ul>
     </article>
-    <article class="card">
-      <h3>HOOSSH CRM Platform</h3><p class="meta">ASP.NET MVC, C#, SQL Server, REST API · 2025 to 2026</p>
+    <article class="card project-card">
+      <span class="project-number">02 / CRM</span><h3>HOOSSH CRM Platform</h3><p class="meta">ASP.NET MVC, C#, SQL Server, REST API · 2025 to 2026</p>
       <ul><li>Contributed to backend development, database design and query optimisation.</li>
       <li>Received the Emerging Star of the Month award for technical contributions.</li></ul>
     </article>
@@ -91,7 +92,7 @@
 </section>
 
 <section id="experience" class="wrap sec">
-  <h2>Experience</h2>
+  <div class="section-head"><p class="section-kicker">04 <span>/</span> WHERE I HAVE BEEN</p><h2>Experience</h2></div>
   <ol class="timeline">
     <li><h3>Backend Developer, Typesider Pvt. Ltd.</h3><p class="meta">Feb 2026 to present · Noida</p>
       <p>Sole backend owner of a live gift-card rewards platform. Own the architecture, API design and database schema.</p></li>
@@ -103,7 +104,7 @@
 </section>
 
 <section id="education" class="wrap sec">
-  <h2>Education</h2>
+  <div class="section-head"><p class="section-kicker">05 <span>/</span> THE FOUNDATIONS</p><h2>Education</h2></div>
   <div class="grid2">
     <div class="card"><h3>MCA, Noida Institute of Engineering and Technology</h3><p class="meta">AKTU · 2023 to 2025 · CGPA 8.23</p></div>
     <div class="card"><h3>BCA, Raj Narain College, Hajipur</h3><p class="meta">BRABU · 2019 to 2023 · CGPA 8.21</p></div>
@@ -122,13 +123,13 @@
 </section>
 
 <section id="github" class="wrap sec">
-  <h2>GitHub</h2>
+  <div class="section-head"><p class="section-kicker">06 <span>/</span> OPEN SOURCE & SIDE PROJECTS</p><h2>GitHub</h2></div>
   <p id="gh-status" role="status">Loading repositories…</p>
   <div id="gh-list" class="grid3"></div>
 </section>
 
 <section id="contact" class="wrap sec">
-  <h2>Contact</h2>
+  <div class="section-head"><p class="section-kicker">07 <span>/</span> HAVE A GOOD ONE IN MIND?</p><h2>Let's talk.</h2></div>
   <div class="contact">
   <div>
   <p>I am open to backend and .NET developer roles. Email is the fastest way to reach me.</p>
