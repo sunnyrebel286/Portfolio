@@ -46,6 +46,46 @@ document.addEventListener('keydown', (event) => {
 
 document.querySelector('#current-year').textContent = new Date().getFullYear();
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const revealElements = document.querySelectorAll(
+  '.hero-content, .hero-portrait-wrap, .hero-stats, .about-copy, .about-highlights, .section-heading, .skill-card, .project-card, .career-column, .github-inner, .contact-copy, .contact-form',
+);
+
+if ('IntersectionObserver' in window && !prefersReducedMotion) {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+
+  revealElements.forEach((element, index) => {
+    element.classList.add('reveal-on-scroll');
+    element.style.setProperty('--reveal-order', String(index % 4));
+    revealObserver.observe(element);
+  });
+}
+
+if ('IntersectionObserver' in window) {
+  const sectionLinks = new Map(
+    Array.from(navigation.querySelectorAll('a[href^="#"]'))
+      .map((link) => [document.querySelector(link.getAttribute('href')), link])
+      .filter(([section]) => section),
+  );
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        sectionLinks.forEach((link) => link.removeAttribute('aria-current'));
+        sectionLinks.get(entry.target)?.setAttribute('aria-current', 'location');
+      }
+    });
+  }, { rootMargin: '-22% 0px -68% 0px' });
+
+  sectionLinks.forEach((_, section) => sectionObserver.observe(section));
+}
+
 const githubProfileStatus = document.querySelector('#github-profile-status');
 const githubStats = document.querySelector('#github-stats');
 const githubRepoStatus = document.querySelector('#github-repo-status');

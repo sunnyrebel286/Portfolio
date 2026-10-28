@@ -4,10 +4,10 @@
   --surface: #fff;
   --surface-soft: #f7fafb;
   --ink: #102331;
-  --muted: #647d8e;
+  --muted: #5d7082;
   --line: #e0e9ed;
   --accent: #16c99b;
-  --accent-deep: #058c6a;
+  --accent-deep: #087956;
   --night: #07151e;
   --night-soft: #0a1c27;
   --night-ink: #edf5f7;
@@ -389,4 +389,262 @@ a:hover { color: var(--accent-deep); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+.site-header { min-height: 68px; }
+.primary-nav a { font-size: .79rem; }
+.header-contact, .theme-toggle { font-size: .76rem; }
+.hero { min-height: 500px; grid-template-columns: minmax(0, 1.05fr) minmax(250px, .82fr) minmax(170px, .48fr); gap: clamp(1rem, 3vw, 2.5rem); padding-block: 48px; }
+.hero-portrait-wrap { min-height: 400px; }
+.hero-stats { width: 100%; padding: .8rem .9rem; }
+.hero-stats > div, .hero-stats > a { gap: .7rem; padding: .5rem 0; }
+.stat-icon { width: 36px; flex-basis: 36px; font-size: .8rem; }
+.hero-stats strong { font-size: .9rem; }
+.hero-stats p span { font-size: .72rem; }
+.eyebrow, .section-label { font-size: .76rem; }
+.hero h1 { font-size: clamp(3.2rem, 5vw, 4.5rem); }
+.hero-role { font-size: clamp(.95rem, 1.4vw, 1.12rem); }
+.hero-intro { max-width: 470px; font-size: .96rem; }
+.hero-socials a { font-size: .8rem; }
+.hero-socials a > span { font-size: .74rem; }
+.button { min-height: 42px; padding: .55rem 1rem; font-size: .82rem; }
+.portrait-note { font-size: 1.2rem; }
+.section { padding-block: clamp(44px, 5.2vw, 68px); }
+.section-label { margin-bottom: .6rem; }
+.about-layout { gap: clamp(2.5rem, 7vw, 6rem); }
+.about-copy h2, .section-heading h2, .section-heading-row h2 { font-size: clamp(1.9rem, 3vw, 2.55rem); }
+.about-copy > p { max-width: 520px; margin-block: .9rem 1.2rem; font-size: .95rem; line-height: 1.8; }
+.about-highlights { gap: .9rem; }
+.highlight { min-height: 76px; gap: .75rem; padding: .55rem; }
+.highlight-icon { width: 40px; flex-basis: 40px; font-size: 1rem; }
+.highlight h3 { font-size: .88rem; }
+.highlight p { font-size: .78rem; line-height: 1.55; }
+.desk-photo { min-height: 180px; }
+.desk-laptop { height: 128px; }
+.desk-code { font-size: .78rem; }
+.desk-mug { right: 16%; bottom: 15px; width: 42px; height: 49px; font-size: .56rem; }
+.section-heading { margin-bottom: 1.2rem; }
+.section-heading p, .section-heading-row > div > p { font-size: .82rem; }
+.skills-layout { grid-template-columns: minmax(0, 1fr) 190px; gap: 1rem; }
+.skills-grid { gap: .85rem; }
+.skill-card { min-height: 218px; padding: 1rem; }
+.skill-icon { width: 38px; font-size: .83rem; }
+.skill-card h3 { margin: .75rem 0 .55rem; font-size: .9rem; }
+.skill-card ul { gap: .3rem; }
+.skill-card li { padding-left: .72rem; font-size: .78rem; line-height: 1.55; }
+.skill-card li::before { top: .65em; width: 5px; height: 5px; }
+.skills-callout { padding: 1rem; }
+.skills-callout > span { font-size: 1.35rem; }
+.skills-callout h3 { font-size: 1.15rem; }
+.skills-callout a { width: 34px; font-size: 1rem; }
+.section-heading-row { margin-bottom: 1.2rem; }
+.text-link { font-size: .82rem; }
+.projects-grid { gap: 1rem; }
+.project-visual { min-height: 180px; }
+.mock-app { height: 140px; }
+.mock-sidebar { gap: .55rem; padding: .7rem .55rem; font-size: .62rem; }
+.mock-sidebar b { font-size: .68rem; }
+.mock-content { gap: .42rem; padding: .7rem; }
+.mock-content small { font-size: .56rem; }
+.mock-content > strong { font-size: .78rem; }
+.mock-workflow { gap: .18rem; }
+.mock-workflow span { padding: .22rem .32rem; font-size: .59rem; }
+.mock-workflow i { padding: 0 .32rem .12rem; font-size: .53rem; }
+.mock-content > p { font-size: .62rem; }
+.mock-portfolio-panels span { font-size: .52rem; }
+.project-content { padding: .9rem 1rem 1rem; }
+.project-title-row h3 { font-size: .96rem; }
+.project-status { padding: .2rem .52rem; font-size: .66rem; }
+.project-content > p { min-height: 3.2em; margin: .5rem 0 .65rem; font-size: .82rem; line-height: 1.65; }
+.tech-tags { gap: .3rem; }
+.tech-tags span { padding: .2rem .48rem; font-size: .75rem; }
+.project-links { gap: .9rem; margin-top: .65rem; font-size: .78rem; }
+.project-note { margin: .8rem 0 0; color: var(--muted); font-size: .75rem; }
+.career-section { gap: clamp(2rem, 5vw, 4rem); padding-block: 48px; }
+.career-column > h2 { margin-bottom: .9rem; font-size: 1.12rem; }
+.timeline { gap: .55rem; padding-left: .7rem; }
+.timeline-item { grid-template-columns: 12px minmax(0, 1fr); gap: .65rem; padding-bottom: .6rem; }
+.timeline-dot { width: 10px; height: 10px; }
+.timeline-item:not(:last-child)::after { left: 4px; }
+.timeline-heading h3 { font-size: .9rem; }
+.timeline-heading time { font-size: .72rem; }
+.timeline-place { margin: .2rem 0; font-size: .74rem; }
+.timeline-item ul { margin-top: .28rem; padding-left: 1rem; font-size: .76rem; line-height: 1.6; }
+.education-column { padding-left: clamp(1.5rem, 3vw, 2.5rem); }
+.education-card { grid-template-columns: 34px minmax(0, 1fr); gap: .8rem; margin-bottom: .7rem; padding: .8rem; }
+.education-icon { width: 34px; font-size: .95rem; }
+.education-card h3 { font-size: .86rem; }
+.education-card p { margin: .2rem 0; font-size: .73rem; line-height: 1.5; }
+.education-card .education-meta { font-size: .68rem; }
+.activities-note { margin: .5rem 0 .7rem; font-size: .73rem; line-height: 1.65; }
+.quote-card { margin-top: .8rem; padding: .95rem 1rem .9rem 2.7rem; }
+.quote-card > span { top: .15rem; left: .85rem; font-size: 2rem; }
+.quote-card p { font-size: .88rem; }
+.quote-card cite { font-size: .7rem; }
+.github-section { padding-block: 36px 22px; }
+.github-inner { gap: clamp(1rem, 2.5vw, 2rem); }
+.github-intro { font-size: .75rem; }
+.github-avatar { width: 48px; flex-basis: 48px; }
+.github-profile-card h2 { font-size: .92rem; }
+.github-profile-card a { font-size: .68rem; }
+.github-stats { gap: 1.15rem; margin-top: .8rem; }
+.github-stats strong { font-size: .9rem; }
+.github-stats span { font-size: .65rem; }
+.github-profile-status, .github-repo-status, .github-language-status { font-size: .72rem; }
+.github-repositories-heading h3 { font-size: .87rem; }
+.github-repositories-heading a { font-size: .68rem; }
+.github-repo-list { gap: .45rem; }
+.github-repo-card { padding: .6rem .7rem; }
+.github-repo-card h4 { font-size: .75rem; }
+.github-repo-card p { margin: .28rem 0; font-size: .67rem; }
+.github-repo-meta { gap: .75rem; font-size: .7rem; }
+.github-language-list { gap: .58rem; }
+.github-language-heading { font-size: .76rem; }
+.github-language-heading strong { font-size: .68rem; }
+.github-language-bar { height: 6px; }
+.github-footnote { margin-top: .8rem; font-size: .7rem; }
+.contact-section { gap: clamp(2rem, 5vw, 4rem); padding-block: 48px; }
+.contact-copy > p { margin: .65rem 0; font-size: .88rem; line-height: 1.7; }
+.contact-copy h2 { font-size: clamp(2rem, 3.4vw, 2.75rem); }
+.contact-list { gap: .7rem; margin-top: 1rem; }
+.contact-list li { gap: .65rem; }
+.contact-icon { width: 34px; font-size: .68rem; }
+.contact-list li > div > span { font-size: .72rem; }
+.contact-list li > div > span + span, .contact-list a { font-size: .78rem; }
+.contact-form { padding: 1rem; }
+.form-grid { gap: .65rem .8rem; }
+.form-field { gap: .25rem; }
+.form-field label { font-size: .75rem; }
+.form-field input, .form-field textarea { border-radius: 6px; padding: .65rem .75rem; font-size: .82rem; }
+.form-field textarea { min-height: 105px; }
+.field-error { min-height: .9rem; font-size: .72rem; }
+.form-status { margin: .55rem 0; font-size: .72rem; }
+.form-submit { min-width: 140px; }
+.site-footer { min-height: 68px; gap: 1rem; padding-block: .7rem; }
+.site-footer .brand { font-size: .8rem; }
+.site-footer .brand-mark { width: 30px; font-size: .9rem; }
+.site-footer .brand small { font-size: .7rem; }
+.site-footer > p, .back-to-top { font-size: .74rem; }
+.footer-socials { gap: .8rem; }
+.footer-socials a { font-size: .75rem; }
+.back-to-top { padding: .35rem .65rem; }
+
+.project-card, .skill-card, .education-card, .contact-form { transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease; }
+.project-card:hover, .skill-card:hover, .education-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: 0 18px 40px rgb(21 48 62 / 12%); }
+.button, .header-contact, .text-link, .project-links a, .footer-socials a { transition: transform .2s ease, color .2s ease, background-color .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.button:hover:not(:disabled), .header-contact:hover { box-shadow: 0 8px 20px rgb(22 201 155 / 19%); }
+.primary-nav a { transition: color .2s ease; }
+.hero-portrait { transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
+.hero-portrait-wrap:hover .hero-portrait { transform: scale(1.035); }
+.availability-dot { animation: status-pulse 2.4s ease-in-out infinite; }
+.portrait-glow { animation: glow-drift 7s ease-in-out infinite alternate; }
+.highlight-icon { transition: transform .25s ease, background-color .25s ease; }
+.highlight:hover .highlight-icon { transform: translateY(-2px) scale(1.08); background: var(--accent); color: #05221b; }
+.skills-callout { transition: transform .25s ease, box-shadow .25s ease; }
+.skills-callout:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgb(3 18 24 / 22%); }
+.skills-callout a { transition: transform .25s ease, background-color .25s ease, color .25s ease; }
+.skills-callout a:hover { transform: translateX(3px); background: var(--accent); color: #05221b; }
+.form-field input, .form-field textarea { transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.reveal-on-scroll { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--reveal-order, 0) * 70ms); }
+.reveal-on-scroll.is-revealed { opacity: 1; transform: translateY(0); }
+@keyframes status-pulse { 50% { box-shadow: 0 0 0 6px rgb(22 201 155 / 8%); } }
+@keyframes glow-drift { from { transform: translate3d(-4px, 5px, 0) scale(.96); opacity: .7; } to { transform: translate3d(5px, -5px, 0) scale(1.06); opacity: 1; } }
+
+@media (max-width: 1000px) {
+  .site-header { min-height: 64px; }
+  .primary-nav { gap: .6rem; }
+  .primary-nav a { font-size: .7rem; }
+  .hero { min-height: 440px; grid-template-columns: minmax(0, 1.1fr) minmax(210px, .82fr) minmax(145px, .72fr); gap: .8rem; padding-block: 38px; }
+  .hero-portrait-wrap { min-height: 340px; }
+  .hero-stats { padding: .6rem; }
+  .hero-stats > div, .hero-stats > a { gap: .5rem; padding: .4rem 0; }
+  .stat-icon { width: 30px; flex-basis: 30px; }
+  .hero-stats p span { font-size: .65rem; }
+  .skills-grid { gap: .65rem; }
+  .skill-card { min-height: 200px; }
+  .github-inner { grid-template-columns: minmax(145px, .75fr) minmax(0, 1.35fr) minmax(145px, .8fr); gap: .75rem; }
+  .github-repo-card { padding: .5rem; }
+}
+
+@media (max-width: 760px) {
+  .site-header { min-height: 64px; }
+  .primary-nav a { font-size: .9rem; }
+  .primary-nav a[aria-current='page']::after { display: none; }
+  .hero { min-height: auto; grid-template-columns: minmax(0, 1fr) minmax(130px, .72fr); gap: .5rem 1rem; padding-block: 40px 30px; }
+  .hero-content { grid-column: 1 / -1; }
+  .hero-portrait-wrap { grid-column: 1; grid-row: 2; min-height: 300px; }
+  .hero-stats { grid-column: 2; grid-row: 2; width: 100%; padding: .65rem; }
+  .stat-icon { width: 30px; flex-basis: 30px; }
+  .hero-stats strong { font-size: .82rem; }
+  .hero-stats p span { font-size: .64rem; }
+  .section { padding-block: 42px; }
+  .about-copy h2, .section-heading h2, .section-heading-row h2 { font-size: clamp(1.8rem, 5vw, 2.25rem); }
+  .highlight { min-height: 70px; }
+  .skills-layout { grid-template-columns: minmax(0, 1fr) 145px; }
+  .skill-card { min-height: 190px; }
+  .project-visual { min-height: 155px; }
+  .mock-app { height: 125px; }
+  .career-section { padding-block: 42px; }
+  .github-section { padding-block: 32px 20px; }
+  .github-inner { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 1.1rem; }
+  .github-languages { grid-column: 1 / -1; }
+  .github-language-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+  .contact-section { padding-block: 42px; }
+  .site-footer { flex-wrap: wrap; }
+}
+
+@media (max-width: 520px) {
+  .hero { grid-template-columns: minmax(0, 1fr) minmax(115px, .7fr); gap: .25rem .4rem; padding-block: 34px 26px; }
+  .hero h1 { font-size: clamp(2.7rem, 12vw, 3.5rem); }
+  .hero-role { font-size: .91rem; }
+  .hero-intro { font-size: .88rem; }
+  .hero-portrait-wrap { min-height: 220px; }
+  .hero-stats { gap: .1rem; padding: .45rem; }
+  .hero-stats > div, .hero-stats > a { gap: .38rem; padding: .3rem 0; }
+  .stat-icon { width: 24px; flex-basis: 24px; font-size: .62rem; }
+  .hero-stats strong { font-size: .71rem; }
+  .hero-stats p span { font-size: .56rem; }
+  .portrait-note { font-size: .86rem; }
+  .section { padding-block: 34px; }
+  .about-copy > p { font-size: .88rem; }
+  .about-highlights { gap: .35rem; }
+  .highlight { min-height: 76px; gap: .45rem; padding: .3rem; }
+  .highlight-icon { width: 30px; flex-basis: 30px; font-size: .82rem; }
+  .highlight h3 { font-size: .75rem; }
+  .highlight p { font-size: .68rem; }
+  .desk-photo { min-height: 150px; }
+  .skills-layout { grid-template-columns: 1fr; }
+  .skills-grid { gap: .55rem; }
+  .skill-card { min-height: 175px; padding: .72rem; }
+  .skill-card h3 { font-size: .83rem; }
+  .skill-card li { font-size: .73rem; }
+  .skills-callout { min-height: 150px; }
+  .projects-grid { grid-template-columns: 1fr; gap: .9rem; }
+  .project-visual { min-height: 185px; }
+  .mock-app { height: 145px; }
+  .project-content { padding: .8rem; }
+  .project-title-row h3 { font-size: .92rem; }
+  .project-content > p { font-size: .8rem; }
+  .career-section { grid-template-columns: 1fr; gap: 1.5rem; padding-block: 34px; }
+  .career-column > h2 { font-size: 1.05rem; }
+  .education-column { padding: 1.3rem 0 0; }
+  .timeline-heading h3 { font-size: .84rem; }
+  .timeline-heading time, .timeline-place, .timeline-item ul { font-size: .72rem; }
+  .education-card p { font-size: .72rem; }
+  .github-section { padding-block: 28px 18px; }
+  .github-inner { grid-template-columns: 1fr; gap: 1rem; }
+  .github-languages { grid-column: auto; }
+  .github-language-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contact-section { grid-template-columns: 1fr; gap: 1.25rem; padding-block: 34px; }
+  .contact-copy h2 { font-size: 2rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-field--full { grid-column: auto; }
+  .site-footer { gap: .6rem; padding-block: .75rem; }
+  .site-footer > p { order: 4; width: 100%; }
+  .site-footer .brand small { display: none; }
+  .reveal-on-scroll { transition-delay: 0ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll, .reveal-on-scroll.is-revealed { opacity: 1; transform: none; transition: none; }
 }
