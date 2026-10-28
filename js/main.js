@@ -1,73 +1,94 @@
-const themeButton = document.querySelector('#theme');
-const menuButton = document.querySelector('.menu-btn');
-const navigation = document.querySelector('#links');
+const root = document.documentElement;
+const themeButton = document.querySelector('#theme-toggle');
+const menuButton = document.querySelector('.menu-toggle');
+const navigation = document.querySelector('#primary-nav');
 
-const setThemeLabel = () => {
-  const dark = document.documentElement.dataset.theme === 'dark';
-  themeButton.textContent = dark ? 'Light theme' : 'Dark theme';
-  themeButton.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} colour theme`);
+const updateThemeControl = () => {
+  const isDark = root.dataset.theme === 'dark';
+  const nextTheme = isDark ? 'light' : 'dark';
+  themeButton.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+  themeButton.querySelector('.theme-label').textContent = isDark ? 'Light' : 'Dark';
+  themeButton.querySelector('.theme-icon').textContent = isDark ? '☼' : '☾';
+  document.querySelector('meta[name="theme-color"]').content = isDark ? '#0b1725' : '#f7f9fc';
 };
 
-setThemeLabel();
+updateThemeControl();
 themeButton.addEventListener('click', () => {
-  const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  document.documentElement.dataset.theme = nextTheme;
+  const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  root.dataset.theme = nextTheme;
   localStorage.setItem('portfolio-theme', nextTheme);
-  setThemeLabel();
+  updateThemeControl();
 });
 
 menuButton.addEventListener('click', () => {
   const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
   menuButton.setAttribute('aria-expanded', String(!isOpen));
-  menuButton.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
+  menuButton.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
   navigation.classList.toggle('is-open', !isOpen);
 });
 
 navigation.addEventListener('click', (event) => {
   if (event.target.closest('a')) {
     menuButton.setAttribute('aria-expanded', 'false');
-    menuButton.setAttribute('aria-label', 'Open navigation menu');
+    menuButton.setAttribute('aria-label', 'Open navigation');
     navigation.classList.remove('is-open');
   }
 });
 
-document.querySelector('#year').textContent = new Date().getFullYear();
-
-const resumeLink = document.querySelector('#resume-link');
-fetch(resumeLink.href, { method: 'HEAD' })
-  .then((response) => {
-    resumeLink.hidden = !response.ok;
-  })
-  .catch(() => {
-    resumeLink.hidden = true;
-  });
-
-document.querySelector('.photo').addEventListener('error', (event) => {
-  event.currentTarget.hidden = true;
-  document.querySelector('.visual').classList.add('visual--no-photo');
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-label', 'Open navigation');
+    navigation.classList.remove('is-open');
+    menuButton.focus();
+  }
 });
 
-const githubStatus = document.querySelector('#gh-status');
-const githubList = document.querySelector('#gh-list');
+document.querySelector('#current-year').textContent = new Date().getFullYear();
 
-fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=6')
+const githubProfileStatus = document.querySelector('#github-profile-status');
+const githubStats = document.querySelector('#github-stats');
+const githubRepoStatus = document.querySelector('#github-repo-status');
+const githubRepoList = document.querySelector('#github-repo-list');
+
+fetch('https://api.github.com/users/sunnyrebel286', {
+  headers: { Accept: 'application/vnd.github+json' },
+})
   .then((response) => {
-    if (!response.ok) throw new Error('Repository request failed');
+    if (!response.ok) throw new Error(`GitHub profile request failed (${response.status})`);
+    return response.json();
+  })
+  .then((profile) => {
+    document.querySelector('#github-repos-count').textContent = profile.public_repos;
+    document.querySelector('#github-followers-count').textContent = profile.followers;
+    document.querySelector('#github-following-count').textContent = profile.following;
+    githubStats.hidden = false;
+    githubProfileStatus.textContent = '';
+  })
+  .catch(() => {
+    githubProfileStatus.textContent = 'GitHub profile details are temporarily unavailable. Visit the profile directly.';
+  });
+
+fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=8', {
+  headers: { Accept: 'application/vnd.github+json' },
+})
+  .then((response) => {
+    if (!response.ok) throw new Error(`GitHub repository request failed (${response.status})`);
     return response.json();
   })
   .then((repositories) => {
-    const visibleRepositories = repositories.filter((repository) => !repository.fork);
-    if (visibleRepositories.length === 0) {
-      githubStatus.textContent = 'No public repositories to show yet.';
+    const publicRepositories = repositories.filter((repository) => !repository.fork).slice(0, 4);
+    if (publicRepositories.length === 0) {
+      githubRepoStatus.textContent = 'No public repositories are available to show.';
       return;
     }
 
-    githubStatus.textContent = '';
-    visibleRepositories.forEach((repository) => {
+    githubRepoStatus.textContent = '';
+    publicRepositories.forEach((repository) => {
       const card = document.createElement('article');
-      card.className = 'card repo';
+      card.className = 'github-repo-card';
 
-      const title = document.createElement('h3');
+      const title = document.createElement('h4');
       const link = document.createElement('a');
       link.href = repository.html_url;
       link.textContent = repository.name;
@@ -76,40 +97,67 @@ fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=6'
       title.append(link);
 
       const description = document.createElement('p');
-      description.textContent = repository.description || 'No description provided.';
+      description.textContent = repository.description || 'Public repository by Sani Kumar.';
 
-      const details = document.createElement('div');
-      details.className = 'repo-meta';
-      const language = document.createElement('span');
-      language.textContent = repository.language || 'Code';
-      const stars = document.createElement('span');
-      stars.textContent = `★ ${repository.stargazers_count}`;
-      details.append(language, stars);
+      const metadata = document.createElement('div');
+      metadata.className = 'github-repo-meta';
+      if (repository.language) {
+        const language = document.createElement('span');
+        language.className = 'github-repo-language';
+        language.textContent = repository.language;
+        metadata.append(language);
+      }
 
-      card.append(title, description, details);
-      githubList.append(card);
+      const updated = document.createElement('span');
+      updated.textContent = `Updated ${new Date(repository.updated_at).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}`;
+      metadata.append(updated);
+
+      card.append(title, description, metadata);
+      githubRepoList.append(card);
     });
   })
   .catch(() => {
-    githubStatus.textContent = 'GitHub repositories could not be loaded right now.';
+    githubRepoStatus.textContent = 'Recent repositories are temporarily unavailable. Visit GitHub to see them.';
   });
 
-const contactForm = document.querySelector('#form');
+const contactForm = document.querySelector('#contact-form');
+const formStatus = document.querySelector('#form-status');
+const formButton = contactForm.querySelector('button[type="submit"]');
+const formEndpoint = contactForm.dataset.endpoint.trim();
 const fields = [
-  { input: document.querySelector('#name'), error: document.querySelector('#e-name'), label: 'Name' },
-  { input: document.querySelector('#email'), error: document.querySelector('#e-email'), label: 'Email' },
-  { input: document.querySelector('#msg'), error: document.querySelector('#e-msg'), label: 'Message' },
+  { input: document.querySelector('#contact-name'), error: document.querySelector('#error-name'), label: 'Name' },
+  { input: document.querySelector('#contact-email'), error: document.querySelector('#error-email'), label: 'Email' },
+  { input: document.querySelector('#contact-subject'), error: document.querySelector('#error-subject'), label: 'Subject' },
+  { input: document.querySelector('#contact-message'), error: document.querySelector('#error-message'), label: 'Message' },
 ];
 
-contactForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  let isValid = true;
+fields.forEach(({ input, error }) => {
+  input.setAttribute('aria-describedby', error.id);
+  input.addEventListener('input', () => {
+    error.textContent = '';
+    input.removeAttribute('aria-invalid');
+  });
+});
 
+const hasValidEndpoint = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/.test(formEndpoint);
+formButton.disabled = !hasValidEndpoint;
+
+if (hasValidEndpoint) {
+  formStatus.textContent = 'Your message will be sent securely through Formspree.';
+}
+
+contactForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!hasValidEndpoint) {
+    formStatus.textContent = 'The contact form is not configured yet. Please email me directly.';
+    return;
+  }
+
+  let isValid = true;
   fields.forEach(({ input, error, label }) => {
-    const isEmailInvalid = input.type === 'email' && input.value.trim() && !input.validity.valid;
     const message = !input.value.trim()
       ? `${label} is required.`
-      : isEmailInvalid
+      : input.type === 'email' && !input.validity.valid
         ? 'Enter a valid email address.'
         : '';
     error.textContent = message;
@@ -122,7 +170,27 @@ contactForm.addEventListener('submit', (event) => {
     return;
   }
 
-  const subject = `Portfolio message from ${fields[0].input.value.trim()}`;
-  const body = `${fields[2].input.value.trim()}\n\nFrom: ${fields[0].input.value.trim()} (${fields[1].input.value.trim()})`;
-  window.location.href = `mailto:sunnyrebel286@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  formButton.disabled = true;
+  formStatus.textContent = 'Sending your message…';
+
+  try {
+    const response = await fetch(formEndpoint, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { Accept: 'application/json' },
+    });
+
+    if (!response.ok) {
+      formStatus.textContent = 'Your message could not be sent. Please try again or email me directly.';
+      return;
+    }
+
+    contactForm.reset();
+    fields.forEach(({ input }) => input.removeAttribute('aria-invalid'));
+    formStatus.textContent = 'Your message was sent. Thank you for getting in touch.';
+  } catch {
+    formStatus.textContent = 'A network error prevented your message from sending. Please try again or email me directly.';
+  } finally {
+    formButton.disabled = false;
+  }
 });
