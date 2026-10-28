@@ -9,8 +9,10 @@ Open `index.html` in a browser or use VS Code Live Server.
 ## Features
 
 - Responsive layout inspired by the supplied portfolio reference, with dark and light themes.
-- Accessible navigation, theme controls, keyboard focus states and reduced-motion support.
-- Public GitHub profile, recent repositories and primary-language breakdown loaded with the unauthenticated GitHub REST API. Language percentages represent the share of public repositories by primary language; no GitHub token is used in browser code.
+- Accessible navigation, keyboard focus states, reduced-motion support, and a theme that follows the system preference until a choice is saved.
+- Category filters for the secondary public-project cards; every filter updates an accessible result status.
+- Public GitHub profile, latest repositories, available star/fork counts and primary-language breakdown loaded with the unauthenticated GitHub REST API. Language percentages represent the share of public repositories by primary language; no GitHub token is used in browser code.
+- GitHub loading, empty, network-error and API-rate-limit states with direct profile/repository links as fallbacks.
 - Contact form validates fields but stays disabled until a Formspree endpoint is configured.
 
 ## Configure the contact form

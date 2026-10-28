@@ -2,6 +2,7 @@ const root = document.documentElement;
 const themeButton = document.querySelector('#theme-toggle');
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#primary-nav');
+const systemThemePreference = window.matchMedia('(prefers-color-scheme: dark)');
 
 const updateThemeControl = () => {
   const isDark = root.dataset.theme === 'dark';
@@ -9,39 +10,70 @@ const updateThemeControl = () => {
   themeButton.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
   themeButton.querySelector('.theme-label').textContent = isDark ? 'Light' : 'Dark';
   themeButton.querySelector('.theme-icon').textContent = isDark ? '☼' : '☾';
-  document.querySelector('meta[name="theme-color"]').content = '#071321';
+  document.querySelector('meta[name="theme-color"]').content = isDark ? '#071321' : '#f6f9fc';
 };
+
+const savedTheme = localStorage.getItem('portfolio-theme');
+let hasSavedTheme = savedTheme === 'dark' || savedTheme === 'light';
+const applyTheme = (theme) => {
+  root.dataset.theme = theme;
+  updateThemeControl();
+};
+
+if (!hasSavedTheme) {
+  applyTheme(systemThemePreference.matches ? 'dark' : 'light');
+}
 
 updateThemeControl();
 themeButton.addEventListener('click', () => {
   const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  root.dataset.theme = nextTheme;
   localStorage.setItem('portfolio-theme', nextTheme);
-  updateThemeControl();
+  hasSavedTheme = true;
+  applyTheme(nextTheme);
 });
+
+systemThemePreference.addEventListener('change', (event) => {
+  if (!hasSavedTheme) applyTheme(event.matches ? 'dark' : 'light');
+});
+
+const closeNavigation = () => {
+  menuButton.setAttribute('aria-expanded', 'false');
+  menuButton.setAttribute('aria-label', 'Open navigation');
+  navigation.classList.remove('is-open');
+};
 
 menuButton.addEventListener('click', () => {
   const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!isOpen));
-  menuButton.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
-  navigation.classList.toggle('is-open', !isOpen);
+  if (isOpen) {
+    closeNavigation();
+    return;
+  }
+  menuButton.setAttribute('aria-expanded', 'true');
+  menuButton.setAttribute('aria-label', 'Close navigation');
+  navigation.classList.add('is-open');
 });
 
 navigation.addEventListener('click', (event) => {
-  if (event.target.closest('a')) {
-    menuButton.setAttribute('aria-expanded', 'false');
-    menuButton.setAttribute('aria-label', 'Open navigation');
-    navigation.classList.remove('is-open');
+  if (event.target.closest('a')) closeNavigation();
+});
+
+document.addEventListener('pointerdown', (event) => {
+  if (menuButton.getAttribute('aria-expanded') === 'true'
+      && !navigation.contains(event.target)
+      && !menuButton.contains(event.target)) {
+    closeNavigation();
   }
 });
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
-    menuButton.setAttribute('aria-expanded', 'false');
-    menuButton.setAttribute('aria-label', 'Open navigation');
-    navigation.classList.remove('is-open');
+    closeNavigation();
     menuButton.focus();
   }
+});
+
+window.matchMedia('(min-width: 861px)').addEventListener('change', (event) => {
+  if (event.matches) closeNavigation();
 });
 
 document.querySelector('#current-year').textContent = new Date().getFullYear();
@@ -86,6 +118,39 @@ if ('IntersectionObserver' in window) {
   sectionLinks.forEach((_, section) => sectionObserver.observe(section));
 }
 
+const projectFilterButtons = Array.from(document.querySelectorAll('[data-project-filter]'));
+const moreProjectCards = Array.from(document.querySelectorAll('#more-projects [data-project-category]'));
+const projectFilterStatus = document.querySelector('#project-filter-status');
+const projectFilterLabels = new Map([
+  ['web', 'web'],
+  ['prototype', 'prototype'],
+  ['portfolio', 'portfolio'],
+]);
+
+const updateProjectFilter = (category) => {
+  const isAll = category === 'all';
+  const visibleCount = moreProjectCards.reduce((count, card) => {
+    const isVisible = isAll || card.dataset.projectCategory === category;
+    card.hidden = !isVisible;
+    return count + Number(isVisible);
+  }, 0);
+
+  projectFilterButtons.forEach((button) => {
+    const isActive = button.dataset.projectFilter === category;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+
+  const categoryLabel = projectFilterLabels.get(category);
+  projectFilterStatus.textContent = isAll
+    ? `Showing all ${visibleCount} projects.`
+    : `Showing ${visibleCount} ${categoryLabel} project${visibleCount === 1 ? '' : 's'}.`;
+};
+
+projectFilterButtons.forEach((button) => {
+  button.addEventListener('click', () => updateProjectFilter(button.dataset.projectFilter));
+});
+
 const githubProfileStatus = document.querySelector('#github-profile-status');
 const githubStats = document.querySelector('#github-stats');
 const githubRepoStatus = document.querySelector('#github-repo-status');
@@ -93,13 +158,25 @@ const githubRepoList = document.querySelector('#github-repo-list');
 const githubLanguageStatus = document.querySelector('#github-language-status');
 const githubLanguageList = document.querySelector('#github-language-list');
 
+class GitHubApiError extends Error {
+  constructor(resource, response) {
+    const rateLimited = response.status === 429
+      || (response.status === 403 && response.headers.get('x-ratelimit-remaining') === '0');
+    super(`GitHub ${resource} request failed (${response.status}).`);
+    this.name = 'GitHubApiError';
+    this.rateLimited = rateLimited;
+  }
+}
+
+const requireGitHubSuccess = (response, resource) => {
+  if (!response.ok) throw new GitHubApiError(resource, response);
+  return response;
+};
+
 fetch('https://api.github.com/users/sunnyrebel286', {
   headers: { Accept: 'application/vnd.github+json' },
 })
-  .then((response) => {
-    if (!response.ok) throw new Error(`GitHub profile request failed (${response.status})`);
-    return response.json();
-  })
+  .then((response) => requireGitHubSuccess(response, 'profile').json())
   .then((profile) => {
     document.querySelector('#github-repos-count').textContent = profile.public_repos;
     document.querySelector('#github-followers-count').textContent = profile.followers;
@@ -107,17 +184,16 @@ fetch('https://api.github.com/users/sunnyrebel286', {
     githubStats.hidden = false;
     githubProfileStatus.textContent = '';
   })
-  .catch(() => {
-    githubProfileStatus.textContent = 'GitHub profile details are temporarily unavailable. Visit the profile directly.';
+  .catch((error) => {
+    githubProfileStatus.textContent = error instanceof GitHubApiError && error.rateLimited
+      ? 'GitHub API rate limit reached. Try again later or visit the profile directly.'
+      : 'GitHub profile details are temporarily unavailable. Visit the profile directly.';
   });
 
 fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=100', {
   headers: { Accept: 'application/vnd.github+json' },
 })
-  .then((response) => {
-    if (!response.ok) throw new Error(`GitHub repository request failed (${response.status})`);
-    return response.json();
-  })
+  .then((response) => requireGitHubSuccess(response, 'repositories').json())
   .then((repositories) => {
     const publicRepositories = repositories.filter((repository) => !repository.fork);
     if (publicRepositories.length === 0) {
@@ -154,6 +230,18 @@ fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=10
       const updated = document.createElement('span');
       updated.textContent = `Updated ${new Date(repository.updated_at).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}`;
       metadata.append(updated);
+
+      if (Number.isFinite(repository.stargazers_count)) {
+        const stars = document.createElement('span');
+        stars.textContent = `Stars ${repository.stargazers_count.toLocaleString()}`;
+        metadata.append(stars);
+      }
+
+      if (Number.isFinite(repository.forks_count)) {
+        const forks = document.createElement('span');
+        forks.textContent = `Forks ${repository.forks_count.toLocaleString()}`;
+        metadata.append(forks);
+      }
 
       card.append(title, description, metadata);
       githubRepoList.append(card);
@@ -214,9 +302,14 @@ fetch('https://api.github.com/users/sunnyrebel286/repos?sort=updated&per_page=10
         githubLanguageList.append(row);
       });
   })
-  .catch(() => {
-    githubRepoStatus.textContent = 'Recent repositories are temporarily unavailable. Visit GitHub to see them.';
-    githubLanguageStatus.textContent = 'Public repository language details are temporarily unavailable.';
+  .catch((error) => {
+    const isRateLimited = error instanceof GitHubApiError && error.rateLimited;
+    githubRepoStatus.textContent = isRateLimited
+      ? 'GitHub API rate limit reached. Try again later or view repositories on GitHub.'
+      : 'Recent repositories are temporarily unavailable. Visit GitHub to see them.';
+    githubLanguageStatus.textContent = isRateLimited
+      ? 'Language details are unavailable until the GitHub API limit resets.'
+      : 'Public repository language details are temporarily unavailable.';
   });
 
 const contactForm = document.querySelector('#contact-form');
