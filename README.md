@@ -21,22 +21,15 @@ Open `index.html` in a browser or serve the repository root with VS Code Live Se
 └── sitemap.xml
 ```
 
-CSS custom properties in `css/style.css` define the color themes, typography, spacing, containers, focus rings, radii, shadows, layering, and motion. The existing responsive breakpoints are 1100px, 860px, 760px, and 520px, with a 1440px wide-screen adjustment.
+CSS custom properties in `css/style.css` define the warm-paper, midnight, cobalt, ice-blue, and restrained warm-accent palette, plus typography, spacing, containers, focus rings, radii, shadows, layering, and motion. Inter is used for interface/body text, with DM Serif Display reserved for editorial headings. Shared media-frame utilities provide portrait and landscape aspect ratios. The existing responsive breakpoints are 1100px, 860px, 760px, and 520px, with a 1440px wide-screen adjustment.
 
 ## Features
 
 - Responsive layout inspired by the supplied portfolio reference, with dark and light themes.
 - Accessible navigation, keyboard focus states, reduced-motion support, and a theme that follows the system preference until a choice is saved.
-- Category filters for the secondary public-project cards; every filter updates an accessible result status.
-- Public GitHub profile, latest repositories, available star/fork counts and primary-language breakdown loaded with the unauthenticated GitHub REST API. Language percentages represent the share of public repositories by primary language; no GitHub token is used in browser code.
-- GitHub loading, empty, network-error and API-rate-limit states with direct profile/repository links as fallbacks.
-- Contact form validates fields but stays disabled until a Formspree endpoint is configured.
-
-## Configure the contact form
-
-Create a Formspree form, then set the form's `data-endpoint` attribute in `index.html` to its HTTPS form URL (`https://formspree.io/f/<form-id>`). The site only enables submissions for a Formspree endpoint matching that format. Do not put an email-service password or private API key in this static site.
-
-Until that endpoint is configured, visitors can use the direct email link instead. Form submissions are not reported as successful unless Formspree confirms the request.
+- A compact, filter-free explorer for additional public projects, with verified repository and demo links.
+- Selected public GitHub repositories with verified static links and primary-language labels; the portfolio does not depend on GitHub API data or expose an API token.
+- Direct email, LinkedIn, and GitHub contact links; no unconfigured form or false send-confirmation flow.
 
 ## Deploy with GitHub Pages
 
