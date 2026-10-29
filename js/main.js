@@ -10,7 +10,7 @@ const updateThemeControl = () => {
   themeButton.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
   themeButton.querySelector('.theme-label').textContent = isDark ? 'Light' : 'Dark';
   themeButton.querySelector('.theme-icon').textContent = isDark ? '☼' : '☾';
-  document.querySelector('meta[name="theme-color"]').content = isDark ? '#071321' : '#f6f9fc';
+  document.querySelector('meta[name="theme-color"]').content = isDark ? '#0B1728' : '#F4F7FC';
 };
 
 const savedTheme = localStorage.getItem('portfolio-theme');
