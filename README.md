@@ -21,7 +21,7 @@ Open `index.html` in a browser or serve the repository root with VS Code Live Se
 └── sitemap.xml
 ```
 
-CSS custom properties in `css/style.css` define the warm-paper, midnight, cobalt, ice-blue, and restrained warm-accent palette, plus typography, spacing, containers, focus rings, radii, shadows, layering, and motion. Inter is used for interface/body text, with DM Serif Display reserved for editorial headings. Shared media-frame utilities provide portrait and landscape aspect ratios. The existing responsive breakpoints are 1100px, 860px, 760px, and 520px, with a 1440px wide-screen adjustment.
+CSS custom properties in `css/style.css` define the warm-paper, midnight, cobalt, ice-blue, and restrained warm-accent palette, plus typography, spacing, containers, focus rings, radii, shadows, layering, and motion. Inter is used for interface/body text, with DM Serif Display reserved for editorial headings. Shared media-frame utilities provide portrait and landscape aspect ratios. The existing responsive breakpoints are 1100px, 860px, 760px, 640px, and 520px, with a 1440px wide-screen adjustment.
 
 ## Features
 
